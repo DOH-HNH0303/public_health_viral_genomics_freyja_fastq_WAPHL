@@ -485,6 +485,53 @@ task freyja_one_sample {
   # Adjust output header
   echo -e "\t/~{samplename}" > ~{samplename}_freyja_demixed.tsv
   tail -n+2 ~{samplename}_freyja_demixed.tmp >> ~{samplename}_freyja_demixed.tsv
+
+  python3 <<CODE
+
+  import csv
+  import fileinput
+  import pandas as pd
+
+
+  id = "~{samplename}"
+  for line in fileinput.input((files=("~{samplename}_freyja_demixed.tsv"))):
+    if "lineages" in line:
+      lineages=line.split("\t")[1].strip().split(" ")
+      text_file = open("LINEAGES", "w")
+      n = text_file.write(str(lineages))
+      text_file.close()
+
+    if "abundances" in line:
+      abundances=line.split("\t")[1].strip().split(" ")
+      text_file = open("ABUNDANCES", "w")
+      n = text_file.write(str(abundances))
+      text_file.close()
+
+    if "resid" in line:
+      line=line.split("\t")[1]
+      #print("resid", line)
+      text_file = open("RESID", "w")
+      n = text_file.write(line)
+      text_file.close()
+    if "coverage" in line:
+      line=line.split("\t")[1]
+      #print("coverage", line)
+      text_file = open("COVERAGE", "w")
+      n = text_file.write(line)
+      text_file.close()
+
+  assert len(abundances) == len(lineages), "error: There should be one relative abundance for every lineage"
+
+  print(len(abundances))
+  id_list=[id]*len(abundances)
+  print(id_list)
+  for i in range(len(abundances)):
+    print(i)
+  df = pd.DataFrame({'sample_id':id_list, "lineages":lineages, "abundances":abundances})
+  print(df)
+  df.to_csv('sample_id.tsv', sep="\t", header=False, index=False)
+  CODE
+
   >>>
   runtime {
     memory: "~{memory} GB"
@@ -492,65 +539,6 @@ task freyja_one_sample {
     docker: "~{docker}"
     disks: "local-disk 100 HDD"
     maxRetries: 3
-
-    python3 <<CODE
-    
-    import csv
-    import fileinput
-    import pandas as pd
-    #grab output values by column header
-    with open("~{samplename}.pangolin_report.csv",'r') as csv_file:
-      csv_reader = list(csv.DictReader(csv_file, delimiter=","))
-      for line in csv_reader:
-        with open("PANGO_ASSIGNMENT_VERSION", 'wt') as lineage:
-          pangolin_version=line["pangolin_version"]
-          version=line["version"]
-          lineage.write(f"pangolin {pangolin_version}; {version}")
-        with open("PANGOLIN_LINEAGE", 'wt') as lineage:
-          lineage.write(line["lineage"])
-        with open("PANGOLIN_CONFLICTS", 'wt') as lineage:
-          lineage.write(line["conflict"])
-        with open("PANGOLIN_NOTES", 'wt') as lineage:
-          lineage.write(line["note"])
-
-    id = "~{samplename}"
-    for line in fileinput.input((files=("~{samplename}_freyja_demixed.tsv"))):
-      if "lineages" in line:
-        lineages=line.split("\t")[1].strip().split(" ")
-        text_file = open("LINEAGES", "w")
-        n = text_file.write(str(lineages))
-        text_file.close()
-
-      if "abundances" in line:
-        abundances=line.split("\t")[1].strip().split(" ")
-        text_file = open("ABUNDANCES", "w")
-        n = text_file.write(str(abundances))
-        text_file.close()
-
-      if "resid" in line:
-        line=line.split("\t")[1]
-        #print("resid", line)
-        text_file = open("RESID", "w")
-        n = text_file.write(line)
-        text_file.close()
-      if "coverage" in line:
-        line=line.split("\t")[1]
-        #print("coverage", line)
-        text_file = open("COVERAGE", "w")
-        n = text_file.write(line)
-        text_file.close()
-
-    assert len(abundances) == len(lineages), "error: There should be one relative abundance for every lineage"
-
-    print(len(abundances))
-    id_list=[id]*len(abundances)
-    print(id_list)
-    for i in range(len(abundances)):
-      print(i)
-    df = pd.DataFrame({'sample_id':id_list, "lineages":lineages, "abundances":abundances})
-    print(df)
-    df.to_csv('sample_id.tsv', sep="\t", header=False, index=False)
-    CODE
   }
   output {
     File freyja_variants = "~{samplename}_freyja_variants.tsv"
