@@ -32,12 +32,12 @@ task kraken2 {
     if [ -z "$percentage_sc2" ] ; then percentage_sc2="0" ; fi
     echo $percentage_human | tee PERCENT_HUMAN
     echo $percentage_sc2 | tee PERCENT_SC2
-    # capture target org percentage 
-    if [ ! -z "~{target_org}" ]; then 
+    # capture target org percentage
+    if [ ! -z "~{target_org}" ]; then
       echo "Target org designated: ~{target_org}"
       percent_target_org=$(grep "~{target_org}" ~{samplename}_kraken2_report.txt | cut -f1 | head -n1 )
       if [-z "$percent_target_org" ] ; then percent_target_org="0" ; fi
-    else 
+    else
       percent_target_org=""
     fi
     echo $percent_target_org | tee PERCENT_TARGET_ORG
@@ -320,7 +320,7 @@ task nextclade_one_sample {
       cpu: 2
       disks: "local-disk 50 HDD"
       dx_instance_type: "mem1_ssd1_v2_x2"
-      maxRetries: 3 
+      maxRetries: 3
     }
     output {
       String nextclade_version = read_string("NEXTCLADE_VERSION")
@@ -421,11 +421,11 @@ task freyja_one_sample {
   # capture version
   freyja --version | tee FREYJA_VERSION
   # update freyja reference files if specified
-  if ~{update_db}; then 
+  if ~{update_db}; then
       freyja update 2>&1 | tee freyja_update.log
       # check log files to ensure update did not fail
       if grep "FileNotFoundError.*lineagePaths.*" freyja_update.log
-      then 
+      then
         echo "Error in attempting to update Freyja files. Try increasing memory"
         >&2 echo "Killed"
         exit 1
@@ -435,12 +435,12 @@ task freyja_one_sample {
       freyja_usher_barcode_version="freyja update: $(date +"%Y-%m-%d")"
       freyja_metadata_version="freyja update: $(date +"%Y-%m-%d")"
   else
-  # configure barcode    
+  # configure barcode
     if [[ ! -z "~{freyja_usher_barcodes}" ]]; then
       echo "User freyja usher barcodes identified; ~{freyja_usher_barcodes} will be utilized fre freyja demixing"
       freyja_usher_barcode_version=$(basename -- "~{freyja_usher_barcodes}")
     else
-      freyja_usher_barcode_version="unmodified from freyja container: ~{docker}"  
+      freyja_usher_barcode_version="unmodified from freyja container: ~{docker}"
     fi
     # configure lineage metadata
     if [[ ! -z "~{freyja_lineage_metadata}" ]]; then
@@ -472,7 +472,7 @@ task freyja_one_sample {
     --output_base ~{samplename} \
     --boxplot pdf
   fi
-  # Demix variants 
+  # Demix variants
   echo "Running: freyja demix --eps ~{eps} ${freyja_barcode} ${freyja_metadata} ~{samplename}_freyja_variants.tsv ~{samplename}_freyja_depths.tsv --output ~{samplename}_freyja_demixed.tmp"
   freyja demix \
     ~{'--eps ' + eps} \
@@ -492,6 +492,64 @@ task freyja_one_sample {
     docker: "~{docker}"
     disks: "local-disk 100 HDD"
     maxRetries: 3
+
+    python3 <<CODE
+    import csv
+    import fileinput
+    import pandas as pd
+    #grab output values by column header
+    with open("~{samplename}.pangolin_report.csv",'r') as csv_file:
+      csv_reader = list(csv.DictReader(csv_file, delimiter=","))
+      for line in csv_reader:
+        with open("PANGO_ASSIGNMENT_VERSION", 'wt') as lineage:
+          pangolin_version=line["pangolin_version"]
+          version=line["version"]
+          lineage.write(f"pangolin {pangolin_version}; {version}")
+        with open("PANGOLIN_LINEAGE", 'wt') as lineage:
+          lineage.write(line["lineage"])
+        with open("PANGOLIN_CONFLICTS", 'wt') as lineage:
+          lineage.write(line["conflict"])
+        with open("PANGOLIN_NOTES", 'wt') as lineage:
+          lineage.write(line["note"])
+
+    id = "~{samplename}"
+    for line in fileinput.input((files=(~{samplename}_freyja_demixed.tsv))):
+      if "lineages" in line:
+        lineages=line.split("\t")[1].strip().split(" ")
+        text_file = open("LINEAGES", "w")
+        n = text_file.write(str(lineages))
+        text_file.close()
+
+      if "abundances" in line:
+        abundances=line.split("\t")[1].strip().split(" ")
+        text_file = open("ABUNDANCES", "w")
+        n = text_file.write(str(abundances))
+        text_file.close()
+
+      if "resid" in line:
+        line=line.split("\t")[1]
+        #print("resid", line)
+        text_file = open("RESID", "w")
+        n = text_file.write(line)
+        text_file.close()
+      if "coverage" in line:
+        line=line.split("\t")[1]
+        #print("coverage", line)
+        text_file = open("COVERAGE", "w")
+        n = text_file.write(line)
+        text_file.close()
+
+    assert len(abundances) == len(lineages), "error: There should be one relative abundance for every lineage"
+
+    print(len(abundances))
+    id_list=[id]*len(abundances)
+    print(id_list)
+    for i in range(len(abundances)):
+      print(i)
+    df = pd.DataFrame({'sample_id':id_list, "lineages":lineages, "abundances":abundances})
+    print(df)
+    df.to_csv('sample_id.tsv', sep="\t", header=False, index=False)
+    CODE
   }
   output {
     File freyja_variants = "~{samplename}_freyja_variants.tsv"
