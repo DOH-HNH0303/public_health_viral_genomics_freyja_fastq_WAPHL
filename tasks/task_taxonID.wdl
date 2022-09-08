@@ -513,7 +513,7 @@ task freyja_one_sample {
           lineage.write(line["note"])
 
     id = "~{samplename}"
-    for line in fileinput.input((files=(~{samplename}_freyja_demixed.tsv))):
+    for line in fileinput.input((files=("~{samplename}_freyja_demixed.tsv"))):
       if "lineages" in line:
         lineages=line.split("\t")[1].strip().split(" ")
         text_file = open("LINEAGES", "w")
