@@ -75,7 +75,7 @@ workflows:
    primaryDescriptorPath: /workflows/wf_theiacov_wwvc.wdl
    testParameterFiles:
     - empty.json
- - name: Freyja_FASTQ
+ - name: Freyja_FASTQ_WAPHL
    subclass: WDL
    primaryDescriptorPath: /workflows/wf_freyja_fastq.wdl
    testParameterFiles:
