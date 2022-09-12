@@ -499,7 +499,6 @@ task freyja_one_sample {
     File freyja_variants = "~{samplename}_freyja_variants.tsv"
     File freyja_depths = "~{samplename}_freyja_depths.tsv"
     File freyja_demixed = "~{samplename}_freyja_demixed.tsv"
-    File freyja_epi_file = "~{samplename}_for_epi.tsv"
     File? freyja_update_log = "freyja_update.log"
     File? freyja_boostrap_lineages = "~{samplename}_lineages.csv"
     File? freyja_boostrap_lineages_pdf = "~{samplename}_lineages.pdf"
