@@ -21,31 +21,33 @@ task freyja_epi_output {
 
 
   id = "~{samplename}"
-  for line in fileinput.input((files=("~{samplename}_freyja_demixed.tsv"))):
-    if "lineages" in line:
-      lineages=line.split("\t")[1].strip().split(" ")
-      text_file = open("LINEAGES", "w")
-      n = text_file.write(str(lineages))
-      text_file.close()
+  with open("~{samplename}_freyja_demixed.tsv") as f:
+    lines = f.readlines()
+    for line in lines:
+      if "lineages" in line:
+        lineages=line.split("\t")[1].strip().split(" ")
+        text_file = open("LINEAGES", "w")
+        n = text_file.write(str(lineages))
+        text_file.close()
 
-    if "abundances" in line:
-      abundances=line.split("\t")[1].strip().split(" ")
-      text_file = open("ABUNDANCES", "w")
-      n = text_file.write(str(abundances))
-      text_file.close()
+      if "abundances" in line:
+        abundances=line.split("\t")[1].strip().split(" ")
+        text_file = open("ABUNDANCES", "w")
+        n = text_file.write(str(abundances))
+        text_file.close()
 
-    if "resid" in line:
-      line=line.split("\t")[1]
-      #print("resid", line)
-      text_file = open("RESID", "w")
-      n = text_file.write(line)
-      text_file.close()
-    if "coverage" in line:
-      line=line.split("\t")[1]
-      #print("coverage", line)
-      text_file = open("COVERAGE", "w")
-      n = text_file.write(line)
-      text_file.close()
+      if "resid" in line:
+        line=line.split("\t")[1]
+        #print("resid", line)
+        text_file = open("RESID", "w")
+        n = text_file.write(line)
+        text_file.close()
+      if "coverage" in line:
+        line=line.split("\t")[1]
+        #print("coverage", line)
+        text_file = open("COVERAGE", "w")
+        n = text_file.write(line)
+        text_file.close()
 
   assert len(abundances) == len(lineages), "error: There should be one relative abundance for every lineage"
 
