@@ -5,6 +5,7 @@ import "wf_read_QC_trim.wdl" as read_qc
 import "../tasks/task_alignment.wdl" as align
 import "../tasks/task_consensus_call.wdl" as consensus_call
 import "../tasks/task_versioning.wdl" as versioning
+import "../tasks/task_waphl_utils.wdl" as waphl_utils
 
 workflow freyja_fastq {
   input {
@@ -40,6 +41,12 @@ workflow freyja_fastq {
       primer_trimmed_bam = primer_trim.trim_sorted_bam,
       samplename = samplename,
       reference_genome = reference_genome
+  }
+  call waphl_utils.freyja_epi_output as epi_output {
+    input:
+      freyja_demixed = freyja.freyja_demixed,
+      samplename = samplename
+
   }
   call versioning.version_capture{
     input:
