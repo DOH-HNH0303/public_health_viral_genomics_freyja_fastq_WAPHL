@@ -21,7 +21,7 @@ task freyja_epi_output {
 
 
   id = "~{samplename}"
-  with open("~{samplename}_freyja_demixed.tsv") as f:
+  with open("~{freyja_demixed}") as f:
     lines = f.readlines()
     for line in lines:
       if "lineages" in line:
