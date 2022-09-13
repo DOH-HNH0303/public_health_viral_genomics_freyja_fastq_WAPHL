@@ -75,6 +75,6 @@ task freyja_epi_output {
     String freyja_abundances = read_string("ABUNDANCES")
     String freyja_resid = read_string("RESID")
     String freyja_coverage = read_string("COVERAGE")
-    String freyja_epi_file = read_string("~{samplename}_for_epi.tsv")
+    File freyja_epi_file = "~{samplename}_for_epi.tsv"
   }
 }
