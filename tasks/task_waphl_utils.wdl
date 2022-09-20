@@ -47,9 +47,9 @@ task freyja_epi_metadata {
     maxRetries: 3
   }
   output {
-    String SubmitterSampleNumber = read_string("SUBMITTER_NUM")
-    String WWTPName = read_string("WWTPNAME")
-    String SampleCollectDate = read_string("COLLECTION_DATE")
+    String? SubmitterSampleNumber = read_string("SUBMITTER_NUM")
+    String? WWTPName = read_string("WWTPNAME")
+    String? SampleCollectDate = read_string("COLLECTION_DATE")
     String epi_metadata_docker = "~{docker}"
   }
 }

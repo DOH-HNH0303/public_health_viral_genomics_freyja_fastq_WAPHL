@@ -97,9 +97,9 @@ workflow freyja_fastq {
     String samtools_version_primtrim = primer_trim.samtools_version
     String primer_bed_name = primer_trim.primer_bed_name
 
-    String SubmitterSampleNumber = epi_input.SubmitterSampleNumber
-    String WWTPName = epi_input.WWTPName
-    String SampleCollectDate = epi_input.SampleCollectDate
+    String? SubmitterSampleNumber = epi_input.SubmitterSampleNumber
+    String? WWTPName = epi_input.WWTPName
+    String? SampleCollectDate = epi_input.SampleCollectDate
     String epi_metadata_docker = epi_input.epi_metadata_docker
     String epi_metadata_file = ww_metadata_csv
     # Freyja Analysis
