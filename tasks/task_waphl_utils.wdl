@@ -57,9 +57,9 @@ task freyja_epi_metadata {
 task freyja_epi_output {
   input {
     String samplename
-    String samplecollectdate
-    String wwtpname
-    String submittersamplenumber
+    String? samplecollectdate
+    String? wwtpname
+    String? submittersamplenumber
     File freyja_demixed
     Int memory = 4
     String docker = "staphb/freyja:1.3.10"
@@ -135,10 +135,10 @@ task freyja_epi_output {
   }
   output {
     String freyja_version = read_string("FREYJA_VERSION")
-    String freyja_lineages = read_string("LINEAGES")
-    String freyja_abundances = read_string("ABUNDANCES")
-    String freyja_resid = read_string("RESID")
-    String freyja_coverage = read_string("COVERAGE")
-    File freyja_epi_file = "~{samplename}_for_epi.tsv"
+    String? freyja_lineages = read_string("LINEAGES")
+    String? freyja_abundances = read_string("ABUNDANCES")
+    String? freyja_resid = read_string("RESID")
+    String? freyja_coverage = read_string("COVERAGE")
+    File? freyja_epi_file = "~{samplename}_for_epi.tsv"
   }
 }

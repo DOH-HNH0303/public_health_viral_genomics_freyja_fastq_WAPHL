@@ -106,10 +106,10 @@ workflow freyja_fastq {
     String freyja_version = freyja.freyja_version
     File freyja_variants = freyja.freyja_variants
     File freyja_depths = freyja.freyja_depths
-    File freyja_epi_file = epi_output.freyja_epi_file
-    String freyja_abundances = epi_output.freyja_abundances
-    String freyja_resid = epi_output.freyja_resid
-    String freyja_coverage = epi_output.freyja_coverage
+    File? freyja_epi_file = epi_output.freyja_epi_file
+    String? freyja_abundances = epi_output.freyja_abundances
+    String? freyja_resid = epi_output.freyja_resid
+    String? freyja_coverage = epi_output.freyja_coverage
     String freyja_barcode_version = freyja.freyja_barcode_version
     String freyja_metadata_version = freyja.freyja_metadata_version
     File? freyja_boostrap_lineages = freyja.freyja_boostrap_lineages
