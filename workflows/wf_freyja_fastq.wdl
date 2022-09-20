@@ -99,7 +99,7 @@ workflow freyja_fastq {
     String SubmitterSampleNumber = epi_input.SubmitterSampleNumber
     String WWTPName = epi_input.WWTPName
     String SampleCollectDate = epi_input.SampleCollectDate
-    String epi_metadata_docker = epi_input.pi_metadata_docker
+    String epi_metadata_docker = epi_input.epi_metadata_docker
     String epi_metadata_file = ww_metadata_csv
     # Freyja Analysis
     String freyja_version = freyja.freyja_version
