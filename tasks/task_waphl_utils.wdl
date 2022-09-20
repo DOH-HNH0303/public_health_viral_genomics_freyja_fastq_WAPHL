@@ -22,7 +22,7 @@ task freyja_epi_metadata {
 
   submitter_num=df.loc[df['PHLAccessionNumber'] == accession, 'SubmitterSampleNumber'].iloc[0]
   wwtpname=df.loc[df['PHLAccessionNumber'] == accession, 'WWTPName'].iloc[0]
-  collection_date=df.loc[df['PHLAccessionNumber'] == accession, 'WWTPName'].iloc[0]
+  collection_date=df.loc[df['PHLAccessionNumber'] == accession, 'SampleCollectDate'].iloc[0]
 
   submitter_file = open("SUBMITTER_NUM", "w")
   n = submitter_file.write(str(submitter_num))
