@@ -13,6 +13,7 @@ workflow freyja_fastq {
     File read2_raw
     File primer_bed
     File reference_genome
+    File ww_metadata_csv
     Int trimmomatic_minlen = 25
     String samplename
   }
@@ -42,11 +43,17 @@ workflow freyja_fastq {
       samplename = samplename,
       reference_genome = reference_genome
   }
+  call waphl_utils.freyja_epi_metadata as epi_input {
+    input:
+      ww_metadata_csv = ww_metadata_csv,
+      samplename = samplename
+  }
   call waphl_utils.freyja_epi_output as epi_output {
     input:
-      freyja_demixed = freyja.freyja_demixed,
+      submittersamplenumber = epi_input.SubmitterSampleNumber,
+      wwtpname = epi_input.WWTPName,
+      samplecollectdate = epi_input.SampleCollectDate,
       samplename = samplename
-
   }
   call versioning.version_capture{
     input:
@@ -88,6 +95,11 @@ workflow freyja_fastq {
     String ivar_version_primtrim = primer_trim.ivar_version
     String samtools_version_primtrim = primer_trim.samtools_version
     String primer_bed_name = primer_trim.primer_bed_name
+
+    String SubmitterSampleNumber = epi_input.SubmitterSampleNumber
+    String WWTPName = epi_input.WWTPName
+    String SampleCollectDate = epi_input.SampleCollectDate
+    String epi_metadata_docker = epi_input.pi_metadata_docker
     # Freyja Analysis
     String freyja_version = freyja.freyja_version
     File freyja_variants = freyja.freyja_variants
