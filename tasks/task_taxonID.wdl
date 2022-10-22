@@ -496,10 +496,6 @@ task freyja_one_sample {
   import pandas as pd
 
 
-  id = "~{samplename}"
-  sc_date = "~{samplecollectdate}"
-  location = "~{wwtpname}"
-  submitter = "~{submittersamplenumber}"
   with open("~{freyja_demixed}") as f:
     lines = f.readlines()
     for line in lines:
