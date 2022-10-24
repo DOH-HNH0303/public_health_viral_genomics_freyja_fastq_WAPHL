@@ -61,6 +61,7 @@ task freyja_epi_output {
     String? wwtpname
     String? submittersamplenumber
     File freyja_demixed
+    File freyja_depths
     Int memory = 4
     String docker = "staphb/freyja:1.3.10"
   }
@@ -68,6 +69,8 @@ task freyja_epi_output {
   # capture version
   freyja --version | tee FREYJA_VERSION
   # update freyja reference files if specified
+
+  awk '{ total += $4; count++ } END { print total/count }' ~{freyja_depths} | tee AVG_COVERAGE
 
 
   python3 <<CODE
@@ -104,6 +107,11 @@ task freyja_epi_output {
         text_file.close()
       if "coverage" in line:
         line=line.split("\t")[1]
+        uncov = 100 - float(line)
+
+        float_file = open("UNCOVERED", "w")
+        n = float_file.write(str(uncov))
+        float_file.close()
         #print("coverage", line)
         text_file = open("COVERAGE", "w")
         n = text_file.write(line)
@@ -139,6 +147,8 @@ task freyja_epi_output {
     String? freyja_abundances = read_string("ABUNDANCES")
     String? freyja_resid = read_string("RESID")
     String? freyja_coverage = read_string("COVERAGE")
+    Float? freyja_avg_coverage = read_float("AVG_COVERAGE")
+    Float? freyja_uncovered = read_float("UNCOVERED")
     File? freyja_epi_file = "~{samplename}_for_epi.tsv"
   }
 }
