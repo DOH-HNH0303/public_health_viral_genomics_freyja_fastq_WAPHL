@@ -54,6 +54,7 @@ workflow freyja_fastq {
       wwtpname = epi_input.WWTPName,
       samplecollectdate = epi_input.SampleCollectDate,
       freyja_demixed = freyja.freyja_demixed,
+      freyja_depths = freyja.freyja_depths,
       samplename = samplename
   }
   call versioning.version_capture{
