@@ -485,56 +485,6 @@ task freyja_one_sample {
   # Adjust output header
   echo -e "\t/~{samplename}" > ~{samplename}_freyja_demixed.tsv
   tail -n+2 ~{samplename}_freyja_demixed.tmp >> ~{samplename}_freyja_demixed.tsv
-
-  # Calculate
-  awk '{ total += $4; count++ } END { print total/count }' WA0748811_freyja_depths.tsv | tee AVG_COVERAGE
-
-  python3 <<CODE
-
-  import csv
-  import fileinput
-  import pandas as pd
-
-
-  with open("~{freyja_demixed}") as f:
-    lines = f.readlines()
-    for line in lines:
-      if "lineages" in line:
-        lineages = line.split("\t")[1].strip().split(" ")
-        text_file = open("LINEAGES", "w")
-        n = text_file.write(str(lineages))
-        text_file.close()
-
-      if "abundances" in line:
-        abundances = line.split("\t")[1].strip().split(" ")
-        text_file = open("ABUNDANCES", "w")
-        n = text_file.write(str(abundances))
-        text_file.close()
-
-      if "resid" in line:
-        line = line.split("\t")[1]
-        text_file = open("RESID", "w")
-        n = text_file.write(line)
-        text_file.close()
-
-      if "coverage" in line:
-        line = line.split("\t")[1]
-        uncov = 100 - float(line)
-
-        float_file = open("UNCOVERED", "w")
-        n = float_file.write(str(uncov))
-        float_file.close()
-
-        text_file = open("10X_COVERAGE", "w")
-        n = text_file.write(line)
-        text_file.close()
-
-  assert len(abundances) == len(lineages), "error: There should be one relative abundance for every lineage"
-
-
-  CODE
-
-
   >>>
   runtime {
     memory: "~{memory} GB"
@@ -555,11 +505,5 @@ task freyja_one_sample {
     String freyja_barcode_version = read_string("FREYJA_BARCODES")
     String freyja_metadata_version = read_string("FREYJA_METADATA")
     String freyja_version = read_string("FREYJA_VERSION")
-    Float freyja_10x_coverage = read_float("10X_COVERAGE")
-    Float freyja_avg_coverage = read_float("AVG_COVERAGE")
-    Float freyja_uncovered = read_float("%_UNCOVERED")
-    String? freyja_lineages = read_string("LINEAGES")
-    String? freyja_abundances = read_string("ABUNDANCES")
-    Float? freyja_resid = read_float("RESID")
   }
 }
