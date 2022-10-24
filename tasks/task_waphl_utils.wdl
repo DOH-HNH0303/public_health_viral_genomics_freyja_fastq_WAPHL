@@ -20,21 +20,36 @@ task freyja_epi_metadata {
   df = df[["PHLAccessionNumber", "SubmitterSampleNumber", "WWTPName",  "SampleCollectDate"]]
   print(df)
 
-  submitter_num=df.loc[df['PHLAccessionNumber'] == accession, 'SubmitterSampleNumber'].iloc[0]
-  wwtpname=df.loc[df['PHLAccessionNumber'] == accession, 'WWTPName'].iloc[0]
-  collection_date=df.loc[df['PHLAccessionNumber'] == accession, 'SampleCollectDate'].iloc[0]
+  if accession in df['PHLAccessionNumber'].unique():
+    submitter_num=df.loc[df['PHLAccessionNumber'] == accession, 'SubmitterSampleNumber'].iloc[0]
+    wwtpname=df.loc[df['PHLAccessionNumber'] == accession, 'WWTPName'].iloc[0]
+    collection_date=df.loc[df['PHLAccessionNumber'] == accession, 'SampleCollectDate'].iloc[0]
 
-  submitter_file = open("SUBMITTER_NUM", "w")
-  n = submitter_file.write(str(submitter_num))
-  submitter_file.close()
+    submitter_file = open("SUBMITTER_NUM", "w")
+    n = submitter_file.write(str(submitter_num))
+    submitter_file.close()
 
-  wwtpname_file = open("WWTPNAME", "w")
-  n = wwtpname_file.write(str(wwtpname))
-  wwtpname_file.close()
+    wwtpname_file = open("WWTPNAME", "w")
+    n = wwtpname_file.write(str(wwtpname))
+    wwtpname_file.close()
 
-  collection_date_file = open("COLLECTION_DATE", "w")
-  n = collection_date_file.write(str(collection_date))
-  collection_date_file.close()
+    collection_date_file = open("COLLECTION_DATE", "w")
+    n = collection_date_file.write(str(collection_date))
+    collection_date_file.close()
+
+  else:
+    submitter_file = open("SUBMITTER_NUM", "w")
+    n = submitter_file.write("")
+    submitter_file.close()
+
+    wwtpname_file = open("WWTPNAME", "w")
+    n = wwtpname_file.write("")
+    wwtpname_file.close()
+
+    collection_date_file = open("COLLECTION_DATE", "w")
+    n = collection_date_file.write("")
+    collection_date_file.close()
+
 
   CODE
 
