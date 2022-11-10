@@ -141,10 +141,10 @@ task freyja_epi_output {
   print(len(abundances))
   id_list=[id]*len(abundances)
   date_list=[sc_date]*len(abundances)
-  freyja_date_list=[date]*len(abundances)
+  freyja_date_list=[today]*len(abundances)
   submitter_list=[submitter]*len(abundances)
   location_list=[location]*len(abundances)
-  print(id_list)
+
   for i in range(len(abundances)):
     print(i)
   df = pd.DataFrame({'Sample_ID':submitter_list, 'Sample_Collection_date':date_list,
