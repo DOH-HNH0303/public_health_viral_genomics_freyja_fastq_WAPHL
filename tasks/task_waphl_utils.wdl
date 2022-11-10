@@ -99,7 +99,7 @@ task freyja_epi_output {
   today = date.today()
 
 # dd/mm/YY
-  d1 = today.strftime("%d/%m/%Y")
+  d1 = today.strftime('%d%m%Y')
   print("d1 =", d1)
 
   id = "~{samplename}"
