@@ -96,11 +96,7 @@ task freyja_epi_output {
   from datetime import date
 
 
-  today = date.today()
-
-# dd/mm/YY
-  d1 = today.strftime('%d%m%Y')
-  print("d1 =", d1)
+  
 
   id = "~{samplename}"
   sc_date = "~{samplecollectdate}"
@@ -144,14 +140,13 @@ task freyja_epi_output {
   print(len(abundances))
   id_list=[id]*len(abundances)
   date_list=[sc_date]*len(abundances)
-  freyja_date_list=[d1]*len(abundances)
   submitter_list=[submitter]*len(abundances)
   location_list=[location]*len(abundances)
   print(id_list)
   for i in range(len(abundances)):
     print(i)
   df = pd.DataFrame({'Sample_ID':submitter_list, 'Sample_Collection_date':date_list,
-  'Sample_Site':location_list, "lineages":lineages, "abundances":abundances, "freyja_date":freyja_date})
+  'Sample_Site':location_list, "lineages":lineages, "abundances":abundances})
   print(df)
   df.to_csv('~{samplename}_for_epi.tsv', sep="\t", header=False, index=False)
   CODE
