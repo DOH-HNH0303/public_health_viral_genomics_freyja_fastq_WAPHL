@@ -99,7 +99,7 @@ task freyja_epi_output {
   today = date.today()
 
 # dd/mm/YY
-  d1 = today.strftime("%d/%m/%Y")
+  d1 = today.strftime("%d-%m-%Y")
   print("d1 =", d1)
 
   id = "~{samplename}"
@@ -150,8 +150,7 @@ task freyja_epi_output {
   print(id_list)
   for i in range(len(abundances)):
     print(i)
-  df = pd.DataFrame({'Sample_ID':submitter_list, 'Sample_Collection_date':date_list,
-  'Sample_Site':location_list, "lineages":lineages, "abundances":abundances, "freyja_date":freyja_date_list})
+  df = pd.DataFrame({'Sample_ID':submitter_list, 'Sample_Collection_date':date_list,'Sample_Site':location_list, "lineages":lineages, "abundances":abundances, "freyja_date":freyja_date_list})
   print(df)
   df.to_csv('~{samplename}_for_epi.tsv', sep="\t", header=False, index=False)
   CODE
