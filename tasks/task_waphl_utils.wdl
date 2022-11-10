@@ -96,7 +96,8 @@ task freyja_epi_output {
   from datetime import date
 
 
-  
+  today = date.today()
+  print("today", today)
 
   id = "~{samplename}"
   sc_date = "~{samplecollectdate}"
