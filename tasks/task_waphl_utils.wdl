@@ -100,6 +100,7 @@ task freyja_epi_output {
   print("today", today)
 
   id = "~{samplename}"
+  id = id[:9]
   sc_date = "~{samplecollectdate}"
   location = "~{wwtpname}"
   submitter = "~{submittersamplenumber}"
