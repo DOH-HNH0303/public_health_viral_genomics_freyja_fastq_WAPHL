@@ -119,7 +119,7 @@ task freyja_epi_output {
         abundances.append(unreportable)
 
         float_file = open("UNREPORTABLE", "w")
-        n = text_file.write(float(unreportable))
+        n = text_file.write(str(unreportable))
         float_file.close()
 
         text_file = open("ABUNDANCES", "w")
