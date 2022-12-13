@@ -107,13 +107,20 @@ task freyja_epi_output {
     lines = f.readlines()
     for line in lines:
       if "lineages" in line:
-        lineages=line.split("\t")[1].strip().split(" ")
+        lineages = line.split("\t")[1].strip().split(" ").append("unreportable")
         text_file = open("LINEAGES", "w")
         n = text_file.write(str(lineages))
         text_file.close()
 
       if "abundances" in line:
-        abundances=line.split("\t")[1].strip().split(" ")
+        abundances = line.split("\t")[1].strip().split(" ")
+        unreportable = 1-sum(abundances)
+        abundances.append(unreportable)
+
+        float_file = open("UNREPORTABLE", "w")
+        n = text_file.write(float(unreportable))
+        float_file.close()
+
         text_file = open("ABUNDANCES", "w")
         n = text_file.write(str(abundances))
         text_file.close()
@@ -170,5 +177,6 @@ task freyja_epi_output {
     Float? freyja_avg_coverage = read_float("AVG_COVERAGE")
     Float? freyja_uncovered = read_float("UNCOVERED")
     File? freyja_epi_file = "~{samplename}_for_epi.tsv"
+    Float? freyja_unreportable = read_float("UNREPORTABLE")
   }
 }

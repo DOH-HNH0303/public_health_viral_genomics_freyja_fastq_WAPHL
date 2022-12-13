@@ -109,6 +109,7 @@ workflow freyja_fastq {
     File freyja_depths = freyja.freyja_depths
     File? freyja_epi_file = epi_output.freyja_epi_file
     String? freyja_abundances = epi_output.freyja_abundances
+    Float? freyja_unreportable = freyja.freyja_unreportable
     String? freyja_resid = epi_output.freyja_resid
     String? freyja_10x_coverage = epi_output.freyja_coverage
     Float? freyja_avg_coverage = epi_output.freyja_avg_coverage
@@ -118,6 +119,6 @@ workflow freyja_fastq {
     File? freyja_boostrap_lineages = freyja.freyja_boostrap_lineages
     File? freyja_boostrap_lineages_pdf = freyja.freyja_boostrap_lineages_pdf
     File? freyja_boostrap_summary = freyja.freyja_boostrap_summary
-    File? freyja_boostrap_summary_pdf = freyja.freyja_boostrap_summary_pdf
+    File? freyja_boostrap_summary_pdf = freyja.freyja_boostrap_summary_pdf  
     }
 }
