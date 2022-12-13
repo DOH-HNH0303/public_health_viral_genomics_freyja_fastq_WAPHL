@@ -144,6 +144,7 @@ task freyja_epi_output {
         n = text_file.write(line)
         text_file.close()
 
+  print(abundances, lineages)
   assert len(abundances) == len(lineages), "error: There should be one relative abundance for every lineage"
 
   print(len(abundances))
