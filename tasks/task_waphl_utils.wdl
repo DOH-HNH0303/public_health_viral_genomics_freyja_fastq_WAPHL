@@ -114,8 +114,8 @@ task freyja_epi_output {
 
       if "abundances" in line:
         abundances = line.split("\t")[1].strip().split(" ")
-        abundances = [float(item) for item in abundances]
-        unreportable = 1-(sum(abundances))
+        abundances_float = [float(item) for item in abundances]
+        unreportable = 1-(sum(abundances_float))
         abundances.append(unreportable)
 
         float_file = open("UNREPORTABLE", "w")
