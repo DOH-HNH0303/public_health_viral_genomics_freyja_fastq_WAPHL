@@ -107,7 +107,8 @@ task freyja_epi_output {
     lines = f.readlines()
     for line in lines:
       if "lineages" in line:
-        lineages = line.split("\t")[1].strip().split(" ").append("unreportable")
+        lineages = line.split("\t")[1].strip().split(" ")
+        lineages.append("unreportable")
         text_file = open("LINEAGES", "w")
         n = text_file.write(str(lineages))
         text_file.close()
