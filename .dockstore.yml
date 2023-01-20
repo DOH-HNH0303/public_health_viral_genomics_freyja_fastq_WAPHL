@@ -105,3 +105,8 @@ workflows:
    primaryDescriptorPath: /workflows/wf_freyja_dashboard.wdl
    testParameterFiles:
     - empty.json
+ - name: WW_for_Epi
+   subclass: WDL
+   primaryDescriptorPath: /workflows/wf_ww_for_epi_WAPHL.wdl
+   testParameterFiles:
+    - empty.json
