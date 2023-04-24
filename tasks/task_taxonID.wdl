@@ -427,7 +427,7 @@ task freyja_one_sample {
     Boolean bootstrap = false
     Int? number_bootstraps
     Int memory = 4
-    String docker = "staphb/freyja:1.3.10"
+    String docker = "staphb/freyja:1.3.11"
     Int disk_size = 100
   }
   command <<<
