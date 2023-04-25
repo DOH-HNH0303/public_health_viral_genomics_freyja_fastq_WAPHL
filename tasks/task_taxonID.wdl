@@ -426,7 +426,7 @@ task freyja_one_sample {
     Boolean confirmed_only = false
     Boolean bootstrap = false
     Int? number_bootstraps
-    Int memory = 4
+    Int memory = 8
     String docker = "staphb/freyja:1.3.11"
     Int disk_size = 100
   }
@@ -501,7 +501,7 @@ task freyja_one_sample {
   >>>
   runtime {
     memory: "~{memory} GB"
-    cpu: 2
+    cpu: 4
     docker: "~{docker}"
     disks:  "local-disk " + disk_size + " SSD"
     disk: disk_size + " GB" # TES
