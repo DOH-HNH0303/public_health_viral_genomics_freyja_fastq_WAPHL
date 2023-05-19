@@ -114,6 +114,7 @@ workflow freyja_fastq {
     String? freyja_10x_coverage = epi_output.freyja_coverage
     Float? freyja_avg_coverage = epi_output.freyja_avg_coverage
     Float? freyja_perc_uncovered = epi_output.freyja_uncovered
+    Float? missing_epi = epi_output.missing_epi
     String freyja_barcode_version = freyja.freyja_barcode_version
     String freyja_metadata_version = freyja.freyja_metadata_version
     File? freyja_boostrap_lineages = freyja.freyja_boostrap_lineages

@@ -151,13 +151,27 @@ task freyja_epi_output {
   print(len(abundances))
   id_list=[id]*len(abundances)
   date_list=[sc_date]*len(abundances)
+  if not date_list:
+    missing_data = "Missing"
+    date_list=[None] * len(abundances)
   freyja_date_list=[today]*len(abundances)
   submitter_list=[submitter]*len(abundances)
+  if not submitter_list:
+    missing_data = "Missing"
+    submitter_list=[None] * len(abundances)
   location_list=[location]*len(abundances)
+  if not location_list:
+    missing_data = "Missing"
+    location_list=[None] * len(abundances)
+  
+  if missing_data == "Missing":
+    epi = open("MISSING_EPI", "w")
+    a = epi.write('Missing Epi Data')
+    epi.close()
 
   for i in range(len(abundances)):
     print(i)
-  df = pd.DataFrame({'Sample_ID':submitter_list, 'Sample_Collection_date':date_list,
+  df = pd.DataFrame({'PHL_ID':id_list, 'Sample_ID':submitter_list, 'Sample_Collection_date':date_list,
   'Sample_Site':location_list, "lineages":lineages, "abundances":abundances, "freyja_date":freyja_date_list})
   print(df)
   df.to_csv('~{samplename}_for_epi.tsv', sep="\t", header=False, index=False)
@@ -181,5 +195,6 @@ task freyja_epi_output {
     Float? freyja_uncovered = read_float("UNCOVERED")
     File? freyja_epi_file = "~{samplename}_for_epi.tsv"
     Float? freyja_unreportable = read_float("UNREPORTABLE")
+    String missing_epi = read_string("MISSING_EPI")
   }
 }
