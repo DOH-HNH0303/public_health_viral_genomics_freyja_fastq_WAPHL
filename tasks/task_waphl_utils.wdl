@@ -151,6 +151,7 @@ task freyja_epi_output {
   print(len(abundances))
   id_list=[id]*len(abundances)
   date_list=[sc_date]*len(abundances)
+  missing_data = "not_missing"
   if not date_list:
     missing_data = "Missing"
     date_list=[None] * len(abundances)
@@ -195,6 +196,6 @@ task freyja_epi_output {
     Float? freyja_uncovered = read_float("UNCOVERED")
     File? freyja_epi_file = "~{samplename}_for_epi.tsv"
     Float? freyja_unreportable = read_float("UNREPORTABLE")
-    String missing_epi = read_string("MISSING_EPI")
+    String? missing_epi = read_string("MISSING_EPI")
   }
 }
