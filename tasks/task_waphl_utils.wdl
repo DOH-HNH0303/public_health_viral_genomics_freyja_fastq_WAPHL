@@ -101,6 +101,7 @@ task freyja_epi_output {
 
   id = "~{samplename}"
   sc_date = "~{samplecollectdate}"
+  print("sc_date", sc_date)
   location = "~{wwtpname}"
   submitter = "~{submittersamplenumber}"
   with open("~{freyja_demixed}") as f:
@@ -152,6 +153,7 @@ task freyja_epi_output {
   id_list=[id]*len(abundances)
   date_list=[sc_date]*len(abundances)
   missing_data = "not_missing"
+  print("date_list", date_list)
   if date_list == "":
     print("test1")
     missing_data = "Missing"
