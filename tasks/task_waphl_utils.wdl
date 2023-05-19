@@ -153,6 +153,7 @@ task freyja_epi_output {
   date_list=[sc_date]*len(abundances)
   missing_data = "not_missing"
   if date_list == "":
+    print("test1")
     missing_data = "Missing"
     date_list=[None] * len(abundances)
   freyja_date_list=[today]*len(abundances)
@@ -165,15 +166,14 @@ task freyja_epi_output {
     missing_data = "Missing"
     location_list=[None] * len(abundances)
   epi = open("MISSING_EPI", "w")
+  print(epi)
   if missing_data == "Missing":
     a = epi.write('Missing Epi Data')
   epi.close()
 
-  for i in range(len(abundances)):
-    print(i)
+
   df = pd.DataFrame({'PHL_ID':id_list, 'Sample_ID':submitter_list, 'Sample_Collection_date':date_list,
   'Sample_Site':location_list, "lineages":lineages, "abundances":abundances, "freyja_date":freyja_date_list})
-  print(df)
   df.to_csv('~{samplename}_for_epi.tsv', sep="\t", header=False, index=False)
   CODE
 
