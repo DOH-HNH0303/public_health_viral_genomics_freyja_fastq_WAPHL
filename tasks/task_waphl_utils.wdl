@@ -166,7 +166,7 @@ task freyja_epi_output {
     missing_data = "Missing"
     location_list=[None] * len(abundances)
   epi = open("MISSING_EPI", "w")
-  print(epi)
+  print(missing_data)
   if missing_data == "Missing":
     a = epi.write('Missing Epi Data')
   epi.close()
