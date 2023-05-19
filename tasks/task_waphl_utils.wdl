@@ -167,8 +167,6 @@ task freyja_epi_output {
   epi = open("MISSING_EPI", "w")
   if missing_data == "Missing":
     a = epi.write('Missing Epi Data')
-  else:
-    a = epi.write('.')
   epi.close()
 
   for i in range(len(abundances)):
