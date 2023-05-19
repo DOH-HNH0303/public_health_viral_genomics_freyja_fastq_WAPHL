@@ -152,16 +152,16 @@ task freyja_epi_output {
   id_list=[id]*len(abundances)
   date_list=[sc_date]*len(abundances)
   missing_data = "not_missing"
-  if not date_list:
+  if date_list == "":
     missing_data = "Missing"
     date_list=[None] * len(abundances)
   freyja_date_list=[today]*len(abundances)
   submitter_list=[submitter]*len(abundances)
-  if not submitter_list:
+  if submitter_list == "":
     missing_data = "Missing"
     submitter_list=[None] * len(abundances)
   location_list=[location]*len(abundances)
-  if not location_list:
+  if location_list == "":
     missing_data = "Missing"
     location_list=[None] * len(abundances)
   epi = open("MISSING_EPI", "w")
