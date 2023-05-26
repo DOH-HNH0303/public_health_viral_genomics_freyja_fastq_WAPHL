@@ -21,7 +21,7 @@ workflow theiacov_illumina_se {
     File read1_raw
     File? primer_bed
     String nextclade_dataset_reference = "MN908947"
-    String nextclade_dataset_tag = "2022-09-27T12:00:00Z"
+    String nextclade_dataset_tag = "2023-02-25T12:00:00Z"
     String? nextclade_dataset_name
     File? reference_genome
     Int min_depth = 100
@@ -111,7 +111,8 @@ workflow theiacov_illumina_se {
     }
     call taxon_ID.nextclade_output_parser_one_sample {
       input:
-      nextclade_tsv = nextclade_one_sample.nextclade_tsv
+      nextclade_tsv = nextclade_one_sample.nextclade_tsv,
+      organism = organism
     }
   }
   if (organism == "MPXV" || organism == "sars-cov-2" || organism == "WNV"){ 
@@ -160,6 +161,7 @@ workflow theiacov_illumina_se {
     String? primer_bed_name = primer_trim.primer_bed_name
     File ivar_tsv = variant_call.sample_variants_tsv
     File ivar_vcf = variant_call.sample_variants_vcf
+    String? ivar_variant_proportion_intermediate = variant_call.variant_proportion_intermediate
     String ivar_variant_version = variant_call.ivar_version
     # Assembly QC
     File assembly_fasta = consensus.consensus_seq
