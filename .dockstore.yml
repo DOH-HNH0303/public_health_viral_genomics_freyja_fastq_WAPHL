@@ -85,11 +85,11 @@ workflows:
    primaryDescriptorPath: /workflows/wf_freyja_plot.wdl
    testParameterFiles:
     - empty.json
- - name: TheiaCoV_Validate
-   subclass: WDL
-   primaryDescriptorPath: /workflows/wf_theiacov_validate.wdl
-   testParameterFiles:
-    - empty.json
+#  - name: TheiaCoV_Validate
+#    subclass: WDL
+#    primaryDescriptorPath: /workflows/wf_theiacov_validate.wdl
+#    testParameterFiles:
+#     - empty.json
 #  - name: TheiaCoV_Augur_DistanceTree
 #    subclass: WDL
 #    primaryDescriptorPath: /workflows/wf_theiacov_augur_distance_tree.wdl
@@ -110,8 +110,8 @@ workflows:
    primaryDescriptorPath: /workflows/wf_ww_for_epi_WAPHL.wdl
    testParameterFiles:
     - empty.json
- - name: Mercury_Prep_N_Batch
-   subclass: WDL
-   primaryDescriptorPath: /workflows/wf_mercury_prep_n_batch.wdl
-   testParameterFiles:
-    - empty.json
+#  - name: Mercury_Prep_N_Batch
+#    subclass: WDL
+#    primaryDescriptorPath: /workflows/wf_mercury_prep_n_batch.wdl
+#    testParameterFiles:
+#     - empty.json
