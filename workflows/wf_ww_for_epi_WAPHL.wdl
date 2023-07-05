@@ -17,7 +17,7 @@ workflow ww_for_epi {
 
   output {
     String    ww_batch_upload=batch_data.batch_tsv
-    String    ww_batch_for_lab=batch_data.lab_batch_tsv
+    #String    ww_batch_for_lab=batch_data.lab_batch_tsv
 
   }
 }
@@ -37,25 +37,25 @@ task batch_data {
     echo $file_array
     name_array=(~{sep=' ' samplename})
     touch ~{batch_name}batch_output.tsv
-    touch ~{batch_name}lab_batch_output.tsv
+    #touch ~{batch_name}lab_batch_output.tsv
 
-    echo "Sample_ID	Sample_Collection_Date	Sample_Site	Variant_name	Variant_proportion	Pipeline_date" >~{batch_name}batch_output.tsv
+    # echo "Sample_ID	Sample_Collection_Date	Sample_Site	Variant_name	Variant_proportion	Pipeline_date" >~{batch_name}batch_output.tsv
+    # for c in '~{sep=" " freyja_epi_file}';do
+    #         echo $c
+    #         cat $c >>~{batch_name}batch_output.tsv
+    #     done
+
+    echo "Lab_ID	Sample_ID	Sample_Collection_Date	Sample_Site	Variant_name	Variant_proportion	Pipeline_date" >~{batch_name}batch_output.tsv
     for c in '~{sep=" " freyja_epi_file}';do
             echo $c
             cat $c >>~{batch_name}batch_output.tsv
-        done
-
-    echo "Lab_ID	Sample_ID	Sample_Collection_Date	Sample_Site	Variant_name	Variant_proportion	Pipeline_date" >~{batch_name}lab_batch_output.tsv
-    for c in '~{sep=" " freyja_epi_file}';do
-            echo $c
-            cat $c >>~{batch_name}lab_batch_output.tsv
         done
 
   }
 
   output {
     File    batch_tsv="~{batch_name}batch_output.tsv"
-    File    lab_batch_tsv="~{batch_name}lab_batch_output.tsv"
+    #File    lab_batch_tsv="~{batch_name}lab_batch_output.tsv"
 
   }
 
