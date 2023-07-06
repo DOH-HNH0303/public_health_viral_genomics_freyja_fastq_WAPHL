@@ -53,9 +53,9 @@ workflow freyja_fastq {
   }
   call waphl_utils.freyja_epi_output as epi_output {
     input:
-      submittersamplenumber = select_first(submittersamplenumber, epi_input.SubmitterSampleNumber),
-      wwtpname = select_first(wwtpname, epi_input.WWTPName),
-      samplecollectdate = select_first(samplecollectdate, epi_input.SampleCollectDate),
+      submittersamplenumber = select_first([submittersamplenumber, epi_input.SubmitterSampleNumber]),
+      wwtpname = select_first([wwtpname, epi_input.WWTPName]),
+      samplecollectdate = select_first([samplecollectdate, epi_input.SampleCollectDate]),
       freyja_demixed = freyja.freyja_demixed,
       freyja_depths = freyja.freyja_depths,
       samplename = samplename
